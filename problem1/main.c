@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <errno.h>
+#include <limits.h>
 
 #ifdef DOLOG
 #define LOG(...) fprintf(log, __VA_ARGS__);
@@ -36,7 +38,29 @@ void printArray(struct array *parr)
 
 void getArray(struct array *parr)
 {
-    //xdPRueba
+  //ESta funciòn se debe encargar de recibir los datos del usuario y construir el array
+  char *endptr;
+  long val;
+  char number[40];
+  u_int32_t *psize = parr->size;
+
+  if (fgets(number, 40, stdin) != NULL)
+  {
+    number[strlen(number) -1 ] = 0;
+  }
+  errno = 0;
+  val = strtol(number, &endptr, 10);
+  if (errno != 0)
+    {
+        perror("strtol");
+        exit(EXIT_FAILURE);
+    }
+
+  if (endptr == number) {
+        fprintf(stderr, "No se identifico ningún número\n");
+        exit(EXIT_FAILURE);
+    } 
+  psize = val;
 }
 
 void arrayCommon(struct array *arrIn1, struct array *arrIn2, struct array *arrOut)
