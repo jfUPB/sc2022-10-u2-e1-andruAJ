@@ -41,6 +41,7 @@ void getArray(struct array *parr)
   //ESta funciòn se debe encargar de recibir los datos del usuario y construir el array
   char *endptr;
   long val;
+  long val1;
   char number[40];
   u_int32_t *psize = parr->size;
 
@@ -61,6 +62,31 @@ void getArray(struct array *parr)
         exit(EXIT_FAILURE);
     } 
   psize = val;
+  
+
+  for (int i = 0; i < val; i)
+  {
+    if (fgets(number, 40, stdin) != NULL)
+    {
+        number[strlen(number) -1 ] = 0;
+        i++;
+    }
+    errno = 0;
+    val1 = strtol(number, &endptr, 10);
+
+    if (errno != 0)
+    {
+        perror("strtol");
+        exit(EXIT_FAILURE);
+    }
+
+    if (endptr == number) 
+    {
+        fprintf(stderr, "No se identifico ningún número\n");
+        exit(EXIT_FAILURE);
+    }
+    parr->pdata[i-1] == val1;
+  }
 }
 
 void arrayCommon(struct array *arrIn1, struct array *arrIn2, struct array *arrOut)
