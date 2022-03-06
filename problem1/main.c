@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdint.h>
 #include <errno.h>
 #include <limits.h>
 
@@ -15,6 +16,8 @@ struct array
     int *pdata;
     int size;
 };
+
+struct array *create_array(uint8_t); 
 
 void initArray(struct array *);
 void getArray(struct array *);
@@ -65,6 +68,8 @@ void getArray(struct array *parr)
   //psize = val;
   parr->size = val;
   printf("el valor que ingreso fue:%d \n", parr->size);
+  parr = create_array(val);
+  printf("el valor que ingreso fue:%d \n", parr->size);
 
   for (int i = 0; i < val; i)
   {
@@ -92,6 +97,11 @@ void getArray(struct array *parr)
     printf("el valor que ingreso fue:%d \n", parr->pdata[i-1]);
 
   }
+}
+
+ 
+struct array *create_array(uint8_t size){
+    return (struct array* ) malloc(sizeof(struct array)* size );
 }
 
 void arrayCommon(struct array *arrIn1, struct array *arrIn2, struct array *arrOut)
