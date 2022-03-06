@@ -64,6 +64,7 @@ void getArray(struct array *parr)
     } 
   //psize = val;
   parr->size = val;
+  printf("el valor que ingreso fue:%d \n", parr->size);
 
   for (int i = 0; i < val; i)
   {
@@ -88,6 +89,8 @@ void getArray(struct array *parr)
         exit(EXIT_FAILURE);
     }
     parr->pdata[i-1] == val1;
+    printf("el valor que ingreso fue:%d \n", parr->pdata[i-1]);
+
   }
 }
 
