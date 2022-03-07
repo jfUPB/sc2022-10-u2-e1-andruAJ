@@ -94,10 +94,7 @@ void getArray(struct array *parr)
 }
 
 void arrayCommon(struct array *arrIn1, struct array *arrIn2, struct array *arrOut)
-{
-    arrIn1->pdata = malloc(sizeof(uint32_t)* arrIn1->size);
-    arrIn2->pdata = malloc(sizeof(uint32_t)* arrIn2->size);
-    
+{ 
     arrOut->size = 0;
     uint32_t val = 0;
     if ((arrIn1->size) < (arrIn2->size))
@@ -110,7 +107,7 @@ void arrayCommon(struct array *arrIn1, struct array *arrIn2, struct array *arrOu
                 if (*(arrIn1->pdata + i) == *(arrIn2->pdata + a))
                 {
                     arrOut->size++;
-                    arrOut->pdata = malloc(sizeof(uint32_t)* arrIn2->size);
+                    //arrOut->pdata = malloc(sizeof(uint32_t)* arrIn2->size);
                     for (int b = 0; b < arrOut->size; b++)
                     {
                         if (*(arrIn1->pdata + i) != *(arrOut->pdata + b))
@@ -134,13 +131,12 @@ void arrayCommon(struct array *arrIn1, struct array *arrIn2, struct array *arrOu
                 if (*(arrIn2->pdata + i) == *(arrIn1->pdata + a))
                 {
                     arrOut->size++;
-                    arrOut->pdata = malloc(sizeof(uint32_t)* arrIn1->size);
                     for (int b = 0; b < arrOut->size; b++)
                     {
                         if (*(arrIn2->pdata + i) != *(arrOut->pdata + b))
                         {
+                            printf("si entra\n");
                             *(arrOut->pdata + val) = *(arrIn2->pdata + i);
-                            printf("el valor guardado fue %d en: %d que contiene el valor %d\n", *(arrIn2->pdata + i), val, *(arrOut->pdata + val));
                             val++;
                         }    
                         else{arrOut->size--;}
