@@ -44,8 +44,8 @@ void getArray(struct array *parr)
    printf("Entro al GetArray\n"); 
   //ESta funciòn se debe encargar de recibir los datos del usuario y construir el array
   char *endptr;
-  long val;
-  long val1;
+  int val;
+  int val1;
   char number[40];
   //u_int32_t *psize = parr->size;
 
@@ -55,7 +55,7 @@ void getArray(struct array *parr)
   }
   errno = 0;
   val = strtol(number, &endptr, 10);
-  parr = malloc(sizeof(uint32_t)* val );
+  parr->pdata = malloc(sizeof(uint32_t)* val );
   if (errno != 0)
     {
         perror("strtol");
@@ -68,16 +68,15 @@ void getArray(struct array *parr)
     } 
   //psize = val;
   parr->size = val;
-  printf("el valor que ingreso fue:%d \n", parr->size);
-  printf("el valor del val es:%ld \n", val);
 
   for (int i = 0; i < val; i)
   {
      printf("Entro al for\n"); 
+     
     if (fgets(number, 40, stdin) != NULL)
     {
         number[strlen(number) -1 ] = 0;
-        i++;
+        
     }
     errno = 0;
     val1 = strtol(number, &endptr, 10);
@@ -93,9 +92,9 @@ void getArray(struct array *parr)
         fprintf(stderr, "No se identifico ningún número\n");
         exit(EXIT_FAILURE);
     }
-    parr->pdata[i-1] == val1;
-    //printf("el valor que ingreso fue:%d \n", parr->pdata[i-1]);
 
+    *(parr->pdata + i) = val1;
+    i++;
   }
 }
 
@@ -149,6 +148,7 @@ int main(void)
         if (strncmp(commandBuf, "arr1", strlen("arr1")) == 0)
         {
             LOG("getting array1\n");
+
             getArray(arr1);
         }
         else if (strncmp(commandBuf, "arr2", strlen("arr2")) == 0)
