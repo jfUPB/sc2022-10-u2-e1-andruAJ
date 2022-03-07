@@ -95,7 +95,52 @@ void getArray(struct array *parr)
 
 void arrayCommon(struct array *arrIn1, struct array *arrIn2, struct array *arrOut)
 {
-    
+    arrOut->size = 0;
+    uint32_t val = 0;
+    if ((arrIn1->size) < (arrIn2->size))
+    {
+       for (int i = 0; i < arrIn1->size; i++)
+        {
+            for (int a = 0; a < arrIn2->size; a++)
+            {
+                if (*(arrIn1->pdata + i) == *(arrIn2->pdata + a))
+                {
+                    arrOut->size++;
+                    for (int b = 0; b < arrOut->size; b++)
+                    {
+                        if (*(arrIn1->pdata + i) != *(arrOut->pdata + b))
+                        {
+                            *(arrOut->pdata + val) = *(arrIn1->pdata + i);
+                            val++;
+                        }    
+                        else{arrOut->size--;}
+                    }
+                }
+            } 
+        }
+    }
+    else
+    {
+        for (int i = 0; i < arrIn2->size; i++)
+        {
+            for (int a = 0; a < arrIn1->size; a++)
+            {
+                if (*(arrIn2->pdata + i) == *(arrIn1->pdata + a))
+                {
+                    arrOut->size++;
+                    for (int b = 0; b < arrOut->size; b++)
+                    {
+                        if (*(arrIn2->pdata + i) != *(arrOut->pdata + b))
+                        {
+                            *(arrOut->pdata + val) = *(arrIn2->pdata + i);
+                            val++;
+                        }    
+                        else{arrOut->size--;}
+                    }
+                }
+            } 
+        }
+    } 
 }
 
 void freeMemory(struct array *arr1, struct array *arr2, struct array *arr3)
