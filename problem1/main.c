@@ -140,6 +140,7 @@ void arrayCommon(struct array *arrIn1, struct array *arrIn2, struct array *arrOu
                         if (*(arrIn2->pdata + i) != *(arrOut->pdata + b))
                         {
                             *(arrOut->pdata + val) = *(arrIn2->pdata + i);
+                            printf("el valor guardado fue %d en: %d que contiene el valor %d\n", *(arrIn2->pdata + i), val, *(arrOut->pdata + val));
                             val++;
                         }    
                         else{arrOut->size--;}
