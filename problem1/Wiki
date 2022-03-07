@@ -1,3 +1,5 @@
+PUNTO 1 GETARRAY
+
 El punto no fue fácil, todo debido a que no lograba comprender como usar los punteros y la estructura al mismo tiempo.
 Lo primero que hice fue copiar el ejercicio del blog para convertir caracteres a números (la primera forma, ya que, según lo que entendí, esta era la necesaria porque debía estar pendiente a que el usuario no metiera más valores de los que se suponian)
 
@@ -70,3 +72,8 @@ Ya sabía que al puntero le podía pasar el valor con "= val1" pero lo que iba a
 
 El asterísco se necesita con los punteros para darle un valor a lo que apunta ese puntero
 parr->pdata es la manera de referirme al puntero pdata (que me costó entender que era un puntero y no el arreglo como tal) y el + i es simplemente para desplazarme a la siguiente posición donde iría un entero. Me tomo mucho tiempo porque prove todo tipo de combiaciones.
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+
