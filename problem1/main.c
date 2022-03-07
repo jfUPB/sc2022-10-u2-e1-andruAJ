@@ -41,13 +41,10 @@ void printArray(struct array *parr)
 
 void getArray(struct array *parr)
 {
-   printf("Entro al GetArray\n"); 
-  //ESta funciòn se debe encargar de recibir los datos del usuario y construir el array
   char *endptr;
   int val;
   int val1;
   char number[40];
-  //u_int32_t *psize = parr->size;
 
   if (fgets(number, 40, stdin) != NULL)
   {
@@ -66,12 +63,10 @@ void getArray(struct array *parr)
         fprintf(stderr, "No se identifico ningún número\n");
         exit(EXIT_FAILURE);
     } 
-  //psize = val;
   parr->size = val;
 
   for (int i = 0; i < val; i)
   {
-     printf("Entro al for\n"); 
      
     if (fgets(number, 40, stdin) != NULL)
     {
