@@ -75,5 +75,10 @@ parr->pdata es la manera de referirme al puntero pdata (que me costó entender q
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+Punto 2
 
+La lógica para comparar es muy obvia, con for e if para desplazarse en los arreglos y poder comparar.
+Tuve problemas al inicio ya que estaba reservando espacio en la memoria para arr1 yarr2, sabiendo que ya lo había hecho y eso me reiniciaba sus valores, pero después de un tiempo caí en cuenta porque había cometido el mismo error en el punto pasado
+
+Lo único que falle fue en la lógica para no repetir elementos
 
