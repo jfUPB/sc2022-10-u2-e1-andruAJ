@@ -1,0 +1,84 @@
+PUNTO 1 GETARRAY
+
+El punto no fue fácil, todo debido a que no lograba comprender como usar los punteros y la estructura al mismo tiempo.
+Lo primero que hice fue copiar el ejercicio del blog para convertir caracteres a números (la primera forma, ya que, según lo que entendí, esta era la necesaria porque debía estar pendiente a que el usuario no metiera más valores de los que se suponian)
+
+#include <stdlib.h>
+#include <limits.h>
+#include <stdio.h>
+#include <errno.h>
+#include <string.h>
+
+int main(void)
+{
+    char *endptr;
+    long val;
+    char number[40];
+
+    printf("Enter an integer number: ");
+    if (fgets(number, 40, stdin) != NULL)
+    {
+        number[strlen(number) -1 ] = 0;
+        printf("The string to convert is %s\n", number);
+    }
+
+    errno = 0;
+    val = strtol(number, &endptr, 10);
+    /* Check for various possible errors */
+    if (errno != 0)
+    {
+        perror("strtol");
+        exit(EXIT_FAILURE);
+    }
+
+    if (endptr == number) {
+        fprintf(stderr, "No digits were found\n");
+        exit(EXIT_FAILURE);
+    }
+
+    /* If we got here, strtol() successfully parsed a number */
+
+    printf("strtol() returned %ld\n", val);
+
+    if (*endptr != '\0')        /* Not necessarily an error... */
+        printf("Further characters after number: \"%s\"\n", endptr);
+
+    exit(EXIT_SUCCESS);
+}
+Borre las lineas que no necesitaba, como los comentarios, el exit y los mensajes
+
+Luego mi objetivo era que el usuario le pudiera dar el size al arreglo, por lo que simplemente le dije parr->size = val y funciono (claro que al principio intenté crear un puntero al size, pero luego caí en cuenta que para ingresar al struct simplemente tenía que hacerlo con la flechita y ya -lo hice así basándome en ols videos del blog)
+
+Comprobe que funciono, y ahora tenía que hacer lo mismo pero con los valores en el arreglo.
+
+Parecía fácil, simplemente hice un ciclo for con el máximo siendo la variable "val" y cree otra variable ("val1") para leer el número que ingresaba el usuario, pero lo que me mató fue el struct, los punteros y el heap.
+
+Hice mil y un cambios intentando ver que era lo que no me dejaba ingresar los valores al arreglo, ya que sí leia lo que ingresaba el usuario, y sí tenía un size, por lo que el problema era darle los valores al arreglo
+
+Es aquí donde me planteo todo.
+
+Tuve varias hipótesis:
+
+  -Tenía que ver con la memoria HEAP
+  -Las variables pasaban por valor y no referencia
+  -No estaba escribiendo bien la manera de ingresar al componente del struct
+  -Dios me odia
+  -No existe el arreglo y el pdata como tal solo "apunta a unas canastas que aún no existen"
+  
+Hice muchos cambios y la verdad con tanto estrés y adrenalina no logro recordar todo a presición, pero estoy seguro que probe de todo
+Hice muchas pruebas para ver a qué estaban apuntando los diferentes punteros que tenía. Tuve muchos errores que me decían que era debido a que le estaba pasando un int a una estructura y no a uno de sus componentes específicamente (o así lo entendí)
+Al final vi los videos cientos de veces y busqué mucho en internet, y me di cuenta que en general era porque no sabía usar los punteros, y no sabía como se usaban para pasar los valores a un arreglo, y fui aprendiendo de a poco, hasta que lo último que agregué fue el *(parr->pdata + i) = val1;
+Ya sabía que al puntero le podía pasar el valor con "= val1" pero lo que iba antes de eso no sabía bien que era, hasta que al final todo cuadro.
+
+El asterísco se necesita con los punteros para darle un valor a lo que apunta ese puntero
+parr->pdata es la manera de referirme al puntero pdata (que me costó entender que era un puntero y no el arreglo como tal) y el + i es simplemente para desplazarme a la siguiente posición donde iría un entero. Me tomo mucho tiempo porque prove todo tipo de combiaciones.
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+Punto 2
+
+La lógica para comparar es muy obvia, con for e if para desplazarse en los arreglos y poder comparar.
+Tuve problemas al inicio ya que estaba reservando espacio en la memoria para arr1 yarr2, sabiendo que ya lo había hecho y eso me reiniciaba sus valores, pero después de un tiempo caí en cuenta porque había cometido el mismo error en el punto pasado
+
+Lo único que falle fue en la lógica para no repetir elementos
+
