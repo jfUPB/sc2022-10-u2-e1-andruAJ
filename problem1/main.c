@@ -17,7 +17,7 @@ struct array
     int size;
 };
 
-struct array *create_array(uint8_t); 
+struct array *create_array(uint8_t);
 
 void initArray(struct array *);
 void getArray(struct array *);
@@ -25,7 +25,8 @@ void arrayCommon(struct array *, struct array *, struct array *);
 void printArray(struct array *);
 void freeMemory(struct array *, struct array *, struct array *);
 
-void initArray(struct array *arr){
+void initArray(struct array *arr)
+{
     arr->pdata = NULL;
     arr->size = -1;
 }
@@ -41,111 +42,106 @@ void printArray(struct array *parr)
 
 void getArray(struct array *parr)
 {
-  char *endptr;
-  int val;
-  int val1;
-  char number[40];
+    char *endptr;
+    int val;
+    int val1;
+    char number[40];
 
-  if (fgets(number, 40, stdin) != NULL)
-  {
-    number[strlen(number) -1 ] = 0;
-  }
-  errno = 0;
-  val = strtol(number, &endptr, 10);
-  parr->pdata = malloc(sizeof(uint32_t)* val );
-  if (errno != 0)
-    {
-        perror("strtol");
-        exit(EXIT_FAILURE);
-    }
-
-  if (endptr == number) {
-        fprintf(stderr, "No se identifico ningún número\n");
-        exit(EXIT_FAILURE);
-    } 
-  parr->size = val;
-
-  for (int i = 0; i < val; i)
-  {
-     
     if (fgets(number, 40, stdin) != NULL)
     {
-        number[strlen(number) -1 ] = 0;
-        
+        number[strlen(number) - 1] = 0;
     }
     errno = 0;
-    val1 = strtol(number, &endptr, 10);
-
+    val = strtol(number, &endptr, 10);
+    parr->pdata = malloc(sizeof(uint32_t) * val);
     if (errno != 0)
     {
         perror("strtol");
         exit(EXIT_FAILURE);
     }
 
-    if (endptr == number) 
+    if (endptr == number)
     {
         fprintf(stderr, "No se identifico ningún número\n");
         exit(EXIT_FAILURE);
     }
+    parr->size = val;
 
-    *(parr->pdata + i) = val1;
-    i++;
-  }
+    for (int i = 0; i < val; i)
+    {
+
+        if (fgets(number, 40, stdin) != NULL)
+        {
+            number[strlen(number) - 1] = 0;
+        }
+        errno = 0;
+        val1 = strtol(number, &endptr, 10);
+
+        if (errno != 0)
+        {
+            perror("strtol");
+            exit(EXIT_FAILURE);
+        }
+
+        if (endptr == number)
+        {
+            fprintf(stderr, "No se identifico ningún número\n");
+            exit(EXIT_FAILURE);
+        }
+
+        *(parr->pdata + i) = val1;
+        i++;
+    }
 }
 
 void arrayCommon(struct array *arrIn1, struct array *arrIn2, struct array *arrOut)
-{ 
+{
     arrOut->size = 0;
     uint32_t val = 0;
     if ((arrIn1->size) < (arrIn2->size))
     {
-        arrOut->pdata = malloc(sizeof(uint32_t)* arrIn2->size);
-       for (int i = 0; i < arrIn1->size; i++)
-        {
-            for (int a = 0; a < arrIn2->size; a++)
-            {
-                if (*(arrIn1->pdata + i) == *(arrIn2->pdata + a))
-                {
-                    arrOut->size++;
-                    //arrOut->pdata = malloc(sizeof(uint32_t)* arrIn2->size);
-                    for (int b = 0; b < arrOut->size; b++)
-                    {
-                        if (*(arrIn1->pdata + i) != *(arrOut->pdata + b))
-                        {
-                            *(arrOut->pdata + val) = *(arrIn1->pdata + i);
-                            val++;
-                        }    
-                        else{arrOut->size--;}
-                    }
-                }
-            } 
-        }
+        arrOut->pdata = malloc(sizeof(uint32_t) * arrIn2->size);
     }
     else
     {
-        arrOut->pdata = malloc(sizeof(uint32_t)* arrIn1->size);
-        for (int i = 0; i < arrIn2->size; i++)
+        // printf("arr1 mayor arr2\n");
+        arrOut->pdata = malloc(sizeof(uint32_t) * arrIn1->size);
+    }
+
+    for (int i = 0; i < arrIn1->size; i++)
+    {
+        for (int a = 0; a < arrIn2->size; a++)
         {
-            for (int a = 0; a < arrIn1->size; a++)
+            if (*(arrIn1->pdata + i) == *(arrIn2->pdata + a))
             {
-                if (*(arrIn2->pdata + i) == *(arrIn1->pdata + a))
+                // printf("repetidos\n");
+                // arrOut->size++;
+
+                if (arrOut->size == 0)
                 {
+                    *(arrOut->pdata) = *(arrIn1->pdata + i);
                     arrOut->size++;
-                    for (int b = 0; b < arrOut->size; b++)
+                }
+
+                val = 0;
+                for (int b = 0; b < arrOut->size; b++)
+                {
+                    if (*(arrIn1->pdata + i) == *(arrOut->pdata + b))
                     {
-                        if (*(arrIn2->pdata + i) != *(arrOut->pdata + b))
-                        {
-                            printf("si entra\n");
-                            *(arrOut->pdata + val) = *(arrIn2->pdata + i);
-                            val++;
-                        }    
-                        else{arrOut->size--;}
+                        // printf("si entra\n");
+                        val = 1;
+                        break;
                     }
                 }
-            } 
+                if (val == 0)
+                {
+                    *(arrOut->pdata + arrOut->size) = *(arrIn1->pdata + i);
+                    arrOut->size++;
+                }
+            }
         }
-        
-    } 
+    }
+
 }
 
 void freeMemory(struct array *arr1, struct array *arr2, struct array *arr3)
@@ -179,10 +175,9 @@ int main(void)
     struct array *arr1 = malloc(sizeof(struct array) * 1);
     initArray(arr1);
     struct array *arr2 = malloc(sizeof(struct array) * 1);
-    initArray(arr2);    
+    initArray(arr2);
     struct array *arr3 = malloc(sizeof(struct array) * 1);
     initArray(arr3);
-
 
     LOG("Init command loop\n");
 
@@ -228,7 +223,7 @@ int main(void)
         else if (strncmp(commandBuf, "exit", strlen("exit")) == 0)
         {
             LOG("running exit command\n");
-            freeMemory(arr1,arr2,arr3);
+            freeMemory(arr1, arr2, arr3);
             break;
         }
     }
